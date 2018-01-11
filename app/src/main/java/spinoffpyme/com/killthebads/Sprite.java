@@ -32,7 +32,7 @@ public class Sprite {
         this.width=bmp.getWidth()/BMP_COLUMNS;
         this.heigth=bmp.getHeight()/BMP_ROWS;
         xSpeed=rnd.nextInt(100)-5;
-        ySpeed=rnd.nextInt(10)-5;
+        ySpeed=rnd.nextInt(100)-5;
 
 
     }

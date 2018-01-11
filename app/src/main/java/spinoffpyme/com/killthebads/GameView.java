@@ -9,6 +9,9 @@ import android.view.SurfaceHolder;
 import android.view.SurfaceView;
 import android.view.View;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * Created by tomas on 10/01/2018.
  */
@@ -20,6 +23,7 @@ public class GameView extends SurfaceView {
     int x=0;
     private int xSpeed=1;
     private Sprite sprite;
+    private List<Sprite> sprites=new ArrayList<Sprite>();
 
     public GameView(Context context) {
         super(context);
@@ -28,6 +32,7 @@ public class GameView extends SurfaceView {
         holder.addCallback(new SurfaceHolder.Callback() {
             @Override
             public void surfaceCreated(SurfaceHolder holder) {
+                createSprites();
                 gameLoopThread.setRunning(true);
                 gameLoopThread.start();
             }
@@ -52,14 +57,36 @@ public class GameView extends SurfaceView {
                 }
             }
         });
-        bmp= BitmapFactory.decodeResource(getResources(),R.drawable.bad1);
-        sprite=new Sprite(this,bmp);
+
+
     }
 
     @Override
     protected void onDraw(Canvas canvas) {
         canvas.drawColor(Color.BLACK);
-        sprite.onDraw(canvas);
+        for (Sprite sprite: sprites){
+            sprite.onDraw(canvas);
+        }
+    }
+
+    private void createSprites(){
+        sprites.add(createSprite(R.drawable.bad1));
+        sprites.add(createSprite(R.drawable.bad2));
+        sprites.add(createSprite(R.drawable.bad3));
+        sprites.add(createSprite(R.drawable.bad4));
+        sprites.add(createSprite(R.drawable.bad5));
+        sprites.add(createSprite(R.drawable.bad6));
+        sprites.add(createSprite(R.drawable.good1));
+        sprites.add(createSprite(R.drawable.good2));
+        sprites.add(createSprite(R.drawable.good3));
+        sprites.add(createSprite(R.drawable.good4));
+        sprites.add(createSprite(R.drawable.good5));
+        sprites.add(createSprite(R.drawable.good6));
+    }
+
+    private Sprite createSprite(int resource){
+        bmp= BitmapFactory.decodeResource(getResources(),resource);
+        return new Sprite(this,bmp);
     }
 
 
