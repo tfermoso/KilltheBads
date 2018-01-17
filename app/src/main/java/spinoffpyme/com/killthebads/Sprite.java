@@ -22,7 +22,7 @@ public class Sprite {
     private Bitmap bmp;
     private int currentFrame=0;
     private int width;
-    private int heigth;
+    private int height;
     private int ySpeed;
 
     public Sprite(GameView gameView, Bitmap bmp) {
@@ -30,9 +30,12 @@ public class Sprite {
         this.bmp = bmp;
         Random rnd=new Random();
         this.width=bmp.getWidth()/BMP_COLUMNS;
-        this.heigth=bmp.getHeight()/BMP_ROWS;
-        xSpeed=rnd.nextInt(100)-5;
-        ySpeed=rnd.nextInt(100)-5;
+        this.height=bmp.getHeight()/BMP_ROWS;
+        xSpeed=rnd.nextInt(10)-5;
+        ySpeed=rnd.nextInt(10)-5;
+
+        x=rnd.nextInt(gameView.getWidth()-width);
+        y=rnd.nextInt(gameView.getHeight()-height);
 
 
     }
@@ -41,7 +44,7 @@ public class Sprite {
             xSpeed=-xSpeed;
         }
         x=x+xSpeed;
-        if(y>gameView.getHeight()-heigth-ySpeed || y +ySpeed<0){
+        if(y>gameView.getHeight()-height-ySpeed || y +ySpeed<0){
             ySpeed=-ySpeed;
         }
         y=y+ySpeed;
@@ -50,9 +53,9 @@ public class Sprite {
     public void onDraw(Canvas canvas){
         update();
         int srcX=currentFrame*width;
-        int srcY=getAnimationRow()*heigth;
-        Rect src = new Rect(srcX,srcY,srcX+width,srcY+heigth);
-        Rect dst=new Rect(x,y,x+width,y+heigth);
+        int srcY=getAnimationRow()*height;
+        Rect src = new Rect(srcX,srcY,srcX+width,srcY+height);
+        Rect dst=new Rect(x,y,x+width,y+height);
         canvas.drawBitmap(bmp,src,dst,null);
     }
     //dirección= 0 up, 1 left, 2 down, 3 rigth
@@ -61,5 +64,9 @@ public class Sprite {
         double dirDouble=(Math.atan2(xSpeed,ySpeed)/(Math.PI/2)+2);
         int direccion= (int) Math.round(dirDouble)%BMP_ROWS;
         return DIRECCION_TO_ANIMATION_MAP[direccion];
+    }
+
+    public boolean isCollition(float x2, float y2) {
+        return x2>x && x2<x+width && y2 > y && y2<y+height;
     }
 }
